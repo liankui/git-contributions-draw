@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package git_contributions_draw;
+
+option go_package = "github.com/liankui/git-contributions-draw/go/git-contributions-draw;git_contributions_draw";
+
+message Year {
+  string year = 1;
+  int32 total = 2;
+  Range range = 3;
+}
+
+message Range {
+  string start = 1;
+  string end = 2;
+}

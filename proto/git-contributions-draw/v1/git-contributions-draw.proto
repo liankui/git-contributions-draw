@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package git_contributions_draw.v1;
+
+import "git-contributions-draw/contribution.proto";
+import "git-contributions-draw/year.proto";
+import "google/api/annotations.proto";
+
+option go_package = "github.com/liankui/git-contributions-draw/go/git-contributions-draw/v1;git_contributions_draw";
+
+service GitContributionsDraw {
+  rpc GetDraw(GetDrawRequest) returns (GetDrawResponse) {
+    option (google.api.http) = {get: "/git-contribution-draw/v1/contributions/{name}"};
+  }
+}
+
+message GetDrawRequest {
+  string name = 1;
+}
+
+message GetDrawResponse {
+  repeated Year years = 1;
+  repeated Contribution contributions = 2;
+}

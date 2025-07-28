@@ -1,0 +1,50 @@
+networks:
+  git-contributions-draw-network:
+    driver: bridge
+
+services:
+  git-contributions-draw-mysql:
+    image: ${IMAGE_PREFIX}mysql:5.7.37
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ${SERVER_INSTALL_PATH}/git-contributions-draw-mysql/data:/var/lib/mysql
+      - ${SERVER_INSTALL_PATH}/git-contributions-draw-mysql/config:/etc/mysql/
+      - ${SERVER_INSTALL_PATH}/git-contributions-draw-mysql/logs:/logs
+    environment:
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: "root@ROOT"
+      MYSQL_USER: "git-contributions-draw"
+      MYSQL_PASSWORD: "git-contributions-draw"
+      MYSQL_DATABASE: "git-contributions-draw"
+      TZ: Asia/Shanghai
+    container_name: git-contributions-draw-mysql
+
+  git-contributions-draw-redis:
+    image: ${IMAGE_PREFIX}redis:7.4.2
+    restart: always
+    networks:
+      - git-contributions-draw-network
+    ports:
+      - "6379:6379"
+    volumes:
+      - ${SERVER_INSTALL_PATH}/git-contributions-draw-redis/data:/data
+      - ${SERVER_INSTALL_PATH}/git-contributions-draw-redis/config/redis.conf:/etc/redis/redis.conf
+    container_name: git-contributions-draw-redis
+    command: [ "redis-server", "/etc/redis/redis.conf", "--requirepass", "git-contributions-draw" ]
+
+  git-contributions-draw-server:
+    image: ${IMAGE_PREFIX}git-contributions-draw-server:latest
+    restart: always
+    ports:
+      - "21101:21101"
+      - "21102:21102"
+      - "21103:21103"
+    networks:
+      - git-contributions-draw-network
+    volumes:
+      - ${SERVER_INSTALL_PATH}/git-contributions-draw/git-contributions-draw-server:/logs
+      - ${SERVER_INSTALL_PATH}/git-contributions-draw/configs:/configs
+      - /var/run/docker.sock:/var/run/docker.sock
+    container_name: git-contributions-draw-server

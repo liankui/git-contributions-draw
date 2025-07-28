@@ -1,0 +1,16 @@
+package:
+  name: gitContributionsDraw
+  version: 1.0.0
+  authors:
+    - author: 
+      email: 
+      organization: 
+  
+  dependencies:
+    chaos:
+      repository: github.com/chaos-io/chaos
+      version: v0.0.0-20250722065453-4794df450c1d
+    chaos.core:
+      repository: github.com/chaos-io/core/go
+      version: v0.0.0-20250722061710-7d3320bb64e1
+  repository: github.com/liankui/git-contributions-draw

@@ -1,0 +1,15 @@
+logs:
+  level: debug
+  encode: console # json or console
+  # output: file
+  # initFields:
+    # package: git_contributions_draw.v1
+    # server: git-contributions-draw-server
+    # version: 1.0.0
+  file:
+    path: ./logs/app.log
+    maxSize: 100
+    maxBackups: 10
+    maxAge: 28
+    encode: console
+    # Compress: false
