@@ -2,10 +2,10 @@ package:
   name: gitContributionsDraw
   version: 1.0.0
   authors:
-    - author: 
-      email: 
-      organization: 
-  
+    - author:
+      email:
+      organization:
+  Licence: MIT
   dependencies:
     chaos:
       repository: github.com/chaos-io/chaos
