@@ -8,7 +8,7 @@ import (
 
 func GetContributions(year int, pattern []string) ([]*gitDraw.Contribution, error) {
 	if len(pattern[0]) > 53 {
-		return nil, errors.New("pattern too long")
+		return nil, errors.New("text is too long")
 	}
 
 	var contributions []*gitDraw.Contribution

@@ -37,22 +37,22 @@ func (s gitContributionsDrawServer) GetDraw(ctx context.Context, in *pb.GetDrawR
 
 	year := time.Now().Year()
 	thisYear := draw.GetYear(year)
-	lastYear := draw.GetYear(year - 1)
-	years := []*gitDraw.Year{thisYear, lastYear}
+	nextYear := draw.GetYear(year + 1)
+	years := []*gitDraw.Year{nextYear, thisYear}
 
 	var conts []*gitDraw.Contribution
 	contributions, err := draw.GetContributions(year, pattern)
 	if err != nil {
 		logs.Errorw("failed to get contributions", "error", err)
-		return nil, logs.NewErrorw("failed to get contributions", "err", err)
+		return nil, err
 	}
-	lastContributions, err := draw.GetContributions(year-1, pattern)
+	contributions2, err := draw.GetContributions(year+1, pattern)
 	if err != nil {
-		logs.Errorw("failed to get last year contributions", "error", err)
-		return nil, logs.NewErrorw("failed to get last year contributions", "err", err)
+		logs.Errorw("failed to get next year contributions", "error", err)
+		return nil, err
 	}
+	conts = append(conts, contributions2...)
 	conts = append(conts, contributions...)
-	conts = append(conts, lastContributions...)
 
 	resp := &pb.GetDrawResponse{
 		Years:         years,

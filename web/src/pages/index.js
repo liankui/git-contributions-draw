@@ -48,7 +48,7 @@ const App = () => {
       .catch((err) => {
         console.log(err);
         setLoading(false);
-        setError("I could not check your profile successfully...");
+        setError("SERVER ERROR: " + err.message);
       });
   };
 

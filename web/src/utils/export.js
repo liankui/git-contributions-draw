@@ -7,13 +7,25 @@ const API_URL = "http://127.0.0.1:21101/git-contribution-draw/v1/contributions/"
 //   return fetch(API_URL + username).then((res) => res.json());
 // }
 
-export function fetchData(username) {
-  return fetch(API_URL + username).then((res) => {
-    if (!res.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return res.json();
-  });
+export async function fetchData(username) {
+  const res = await fetch(API_URL + username);
+
+  // if (!res.ok) {
+  //   throw new Error("Network response was not ok");
+  // }
+
+  const data = await res.json();
+
+  // 后端返回的结构化错误处理
+  if (data.code && data.message) {
+    const errMsg = `{"code": ${data.code.code}, "message": "${data.message}"}`;
+    const error = new Error(errMsg);
+    error.statusCode = data.code.http_status_code;
+    error.type = data.code.name;
+    throw error;
+  }
+
+  return data;
 }
 
 export function download(canvas) {

@@ -7,9 +7,14 @@ func GeneratePatternFromText(text string) []string {
 	pattern := make([]string, height)
 
 	for _, ch := range text {
-		if font, ok := asciiFont[unicode.ToUpper(ch)]; ok {
+		_ch := unicode.ToUpper(ch)
+		if font, ok := asciiFont[_ch]; ok {
 			for i := 0; i < height; i++ {
-				pattern[i] += font[i] + " "
+				if _ch == ' ' {
+					pattern[i] += " "
+				} else {
+					pattern[i] += font[i] + " "
+				}
 			}
 		}
 	}
