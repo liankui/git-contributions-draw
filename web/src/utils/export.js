@@ -1,15 +1,19 @@
 import { toast } from "react-hot-toast";
 
-const API_URL = "/api/v1/";
+// const API_URL = "/api/v1/";
+const API_URL = "http://127.0.0.1:21101/git-contribution-draw/v1/contributions/";
 
-export function fetchData3(username) {
-  return fetch(API_URL + username).then((res) => res.json());
-}
-
-import users from './data/users2.json';
+// export function fetchData(username) {
+//   return fetch(API_URL + username).then((res) => res.json());
+// }
 
 export function fetchData(username) {
-  return Promise.resolve(users);
+  return fetch(API_URL + username).then((res) => {
+    if (!res.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return res.json();
+  });
 }
 
 export function download(canvas) {

@@ -36,7 +36,7 @@ func GetContributions(year int, pattern []string) ([]*gitDraw.Contribution, erro
 		}
 	}
 
-	endDate := getFirstSunday(year)
+	endDate := getLastSaturday(year)
 	for x := len(pattern[0]); x <= 53; x++ {
 		for y := 0; y < len(pattern); y++ {
 			date := startDate.AddDate(0, 0, x*7+y)
