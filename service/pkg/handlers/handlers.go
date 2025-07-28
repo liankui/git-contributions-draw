@@ -41,8 +41,16 @@ func (s gitContributionsDrawServer) GetDraw(ctx context.Context, in *pb.GetDrawR
 	years := []*gitDraw.Year{thisYear, lastYear}
 
 	var conts []*gitDraw.Contribution
-	contributions := draw.GetContributions(year, pattern)
-	lastContributions := draw.GetContributions(year-1, pattern)
+	contributions, err := draw.GetContributions(year, pattern)
+	if err != nil {
+		logs.Errorw("failed to get contributions", "error", err)
+		return nil, logs.NewErrorw("failed to get contributions", "err", err)
+	}
+	lastContributions, err := draw.GetContributions(year-1, pattern)
+	if err != nil {
+		logs.Errorw("failed to get last year contributions", "error", err)
+		return nil, logs.NewErrorw("failed to get last year contributions", "err", err)
+	}
 	conts = append(conts, contributions...)
 	conts = append(conts, lastContributions...)
 

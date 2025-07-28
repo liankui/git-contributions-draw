@@ -1,10 +1,16 @@
 package draw
 
 import (
+	"errors"
+
 	gitDraw "github.com/liankui/git-contributions-draw/go/git-contributions-draw"
 )
 
-func GetContributions(year int, pattern []string) []*gitDraw.Contribution {
+func GetContributions(year int, pattern []string) ([]*gitDraw.Contribution, error) {
+	if len(pattern[0]) > 53 {
+		return nil, errors.New("pattern too long")
+	}
+
 	var contributions []*gitDraw.Contribution
 	startDate := getFirstSunday(year)
 	for x := 0; x < len(pattern[0]); x++ { // 每列一周
@@ -30,7 +36,23 @@ func GetContributions(year int, pattern []string) []*gitDraw.Contribution {
 		}
 	}
 
-	return contributions
+	endDate := getFirstSunday(year)
+	for x := len(pattern[0]); x <= 53; x++ {
+		for y := 0; y < len(pattern); y++ {
+			date := startDate.AddDate(0, 0, x*7+y)
+			if date.After(endDate) {
+				break
+			}
+			contributions = append(contributions, &gitDraw.Contribution{
+				Date:      date.Format("2006-01-02"),
+				Count:     0,
+				Color:     "#ebedf0",
+				Intensity: "0",
+			})
+		}
+	}
+
+	return contributions, nil
 
 	//jsonBytes, _ := json.MarshalIndent(result, "", "  ")
 	//fmt.Println(string(jsonBytes))
