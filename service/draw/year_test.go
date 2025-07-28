@@ -19,7 +19,9 @@ func Test_getFirstSunday(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := getFirstSunday(tt.year); !reflect.DeepEqual(got, tt.want) {
+			ti := getFirstSunday(tt.year)
+			got := ti.Format("2006-01-02")
+			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("getFirstSunday() = %v, want %v", got, tt.want)
 			}
 		})
@@ -40,7 +42,9 @@ func Test_getLastSaturday(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := getLastSaturday(tt.year); !reflect.DeepEqual(got, tt.want) {
+			ti := getLastSaturday(tt.year)
+			got := ti.Format("2006-01-02")
+			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("getLastSaturday() = %v, want %v", got, tt.want)
 			}
 		})
